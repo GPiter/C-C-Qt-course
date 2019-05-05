@@ -25,7 +25,7 @@ int Sum(int* date, int size)
 }
 
 
-/* Идея 2. Преобразовать цикл while ???
+/* Идея 2. Преобразовать цикл while ?
 
 Цикл While
 int i = 0;
@@ -39,7 +39,7 @@ i++;
 ======
 
 Рекурсия
-i = 3;
+int i = 3;
 int fun(int i) {
 
 scanf("%d", data);
