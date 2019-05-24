@@ -1,0 +1,120 @@
+/******************************************************************************
+
+Задание 9 - Алгоритмы сортировки
+1. Функция bubble_sort - Реализация сортировки пузырьком
+2. Функция qsortRecursive - Быстрая сортировка
+Автор: Ганин П.А.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void bubble_sort(int *, int);
+void order(int *, int *);
+void qsortRecursive(int *, int);
+const int N = 30; // Размер массива
+
+int main()
+{
+    int array[N];
+
+    printf ("1) Сортировка методом пузырька. \n");
+    for(int i = 0; i < N; i++)
+        array[i]= -100 + rand() % 200;
+
+    printf ("Original array: ");
+    for (int i = 0; i < N; i++)
+    printf ("%d ", array[i]);
+    printf ("\n");
+
+    clock_t begin1 = clock();
+    bubble_sort(array, N);
+    clock_t end1 = clock();
+    double time_spent1 = (double)(end1 - begin1) / CLOCKS_PER_SEC * 100000;
+
+    printf ("Sorted array:  ");
+    for (int i = 0; i < N; i++)
+    printf ("%d ", array[i]);
+    printf ("\n");
+    printf("Time bubble_sort() spent: %f \n", time_spent1);
+
+    printf ("2) Быстрая сортировка. \n");
+
+    for(int i = 0; i < N; i++)
+        array[i]= -100 + rand() % 200;
+
+    printf ("Original array: ");
+    for (int i = 0; i < N; i++)
+    printf ("%d ", array[i]);
+    printf ("\n");
+
+    clock_t begin2 = clock();
+    qsortRecursive(array, N);
+    clock_t end2 = clock();
+    double time_spent2 = (double)(end2 - begin2) / CLOCKS_PER_SEC * 100000;
+
+    printf ("Sorted array:   ");
+    for (int i = 0; i < N; i++)
+    printf ("%d ", array[i]);
+    printf ("\n");
+    printf("Time qsortRecursive() spent: %f \n", time_spent2);
+    return 0;
+
+}
+
+void bubble_sort(int *ptr, int n) {
+    int i, j;
+    for (i = 0; i < n - 1; i++) {
+        for (j = i + 1; j < n; j++)
+        order(ptr + i, ptr + j);
+    }
+}
+
+void order(int *numb1, int *numb2) {
+    if (*numb1 > *numb2) {
+        int temp = *numb1;
+        *numb1 = *numb2;
+        *numb2 = temp;
+    }
+}
+
+void qsortRecursive(int *array, int N) {
+    //Указатели в начало и в конец массива
+    int i = 0;
+    int j = N - 1;
+
+    //Опорный эллемент
+    int mid = array[N / 2];
+
+    do {
+        // Сортируем массив на две части относительно опорного элемента
+        while(array[i] < mid) {
+            i++;
+        }
+
+        while(array[j] > mid) {
+            j--;
+        }
+
+        //Меняем элементы местами
+        if (i <= j) {
+            int tmp = array[i];
+            array[i] = array[j];
+            array[j] = tmp;
+
+            i++;
+            j--;
+        }
+    } while (i <= j);
+
+    //Рекурсивные вызовы, если осталось, что сортировать
+    if(j > 0) {
+        //"Левый кусок"
+        qsortRecursive(array, j + 1);
+    }
+    if (i < N) {
+        //"Правый кусок"
+        qsortRecursive(&array[i], N - i);
+    }
+}
